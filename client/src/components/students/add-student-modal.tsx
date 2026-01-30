@@ -1,10 +1,21 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertStudentSchema } from "@shared/schema";
@@ -19,13 +30,7 @@ const createStudentSchema = insertStudentSchema.extend({
 
 type CreateStudentForm = z.infer<typeof createStudentSchema>;
 
-const packageOptions = [
-  { value: "Piano Lessons", label: "Piano Lessons" },
-  { value: "Guitar Lessons", label: "Guitar Lessons" },
-  { value: "Violin Lessons", label: "Violin Lessons" },
-  { value: "Drum Lessons", label: "Drum Lessons" },
-  { value: "Voice Lessons", label: "Voice Lessons" },
-];
+const packageOptions = [{ value: "English", label: "English" }];
 
 const lessonOptions = [
   { value: 5, label: "5 Sessions" },
@@ -39,7 +44,10 @@ interface AddStudentModalProps {
   onClose: () => void;
 }
 
-export default function AddStudentModal({ isOpen, onClose }: AddStudentModalProps) {
+export default function AddStudentModal({
+  isOpen,
+  onClose,
+}: AddStudentModalProps) {
   const [packageType, setPackageType] = useState("");
   const [totalLessons, setTotalLessons] = useState("");
   const queryClient = useQueryClient();
@@ -119,7 +127,9 @@ export default function AddStudentModal({ isOpen, onClose }: AddStudentModalProp
                 placeholder="Enter first name"
               />
               {form.formState.errors.firstName && (
-                <p className="text-sm text-red-500">{form.formState.errors.firstName.message}</p>
+                <p className="text-sm text-red-500">
+                  {form.formState.errors.firstName.message}
+                </p>
               )}
             </div>
             <div className="space-y-2">
@@ -130,7 +140,9 @@ export default function AddStudentModal({ isOpen, onClose }: AddStudentModalProp
                 placeholder="Enter last name"
               />
               {form.formState.errors.lastName && (
-                <p className="text-sm text-red-500">{form.formState.errors.lastName.message}</p>
+                <p className="text-sm text-red-500">
+                  {form.formState.errors.lastName.message}
+                </p>
               )}
             </div>
           </div>
@@ -144,7 +156,9 @@ export default function AddStudentModal({ isOpen, onClose }: AddStudentModalProp
               placeholder="Enter email address"
             />
             {form.formState.errors.email && (
-              <p className="text-sm text-red-500">{form.formState.errors.email.message}</p>
+              <p className="text-sm text-red-500">
+                {form.formState.errors.email.message}
+              </p>
             )}
           </div>
 
@@ -157,7 +171,9 @@ export default function AddStudentModal({ isOpen, onClose }: AddStudentModalProp
               placeholder="Enter phone number"
             />
             {form.formState.errors.phone && (
-              <p className="text-sm text-red-500">{form.formState.errors.phone.message}</p>
+              <p className="text-sm text-red-500">
+                {form.formState.errors.phone.message}
+              </p>
             )}
           </div>
 
@@ -182,7 +198,9 @@ export default function AddStudentModal({ isOpen, onClose }: AddStudentModalProp
               </SelectContent>
             </Select>
             {form.formState.errors.packageType && (
-              <p className="text-sm text-red-500">{form.formState.errors.packageType.message}</p>
+              <p className="text-sm text-red-500">
+                {form.formState.errors.packageType.message}
+              </p>
             )}
           </div>
 
@@ -200,14 +218,19 @@ export default function AddStudentModal({ isOpen, onClose }: AddStudentModalProp
               </SelectTrigger>
               <SelectContent>
                 {lessonOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value.toString()}>
+                  <SelectItem
+                    key={option.value}
+                    value={option.value.toString()}
+                  >
                     {option.label}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
             {form.formState.errors.totalLessons && (
-              <p className="text-sm text-red-500">{form.formState.errors.totalLessons.message}</p>
+              <p className="text-sm text-red-500">
+                {form.formState.errors.totalLessons.message}
+              </p>
             )}
           </div>
 
@@ -215,8 +238,8 @@ export default function AddStudentModal({ isOpen, onClose }: AddStudentModalProp
             <Button type="button" variant="outline" onClick={handleClose}>
               Cancel
             </Button>
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               disabled={createStudentMutation.isPending}
               className="bg-primary hover:bg-primary/90"
             >

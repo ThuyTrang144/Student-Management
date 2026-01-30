@@ -9,7 +9,9 @@ export default function Navbar() {
           <div className="flex items-center">
             <div className="flex-shrink-0 flex items-center">
               <GraduationCap className="text-primary text-2xl mr-3" size={32} />
-              <span className="text-xl font-semibold text-gray-900">EduTrack</span>
+              <span className="text-xl font-semibold text-gray-900">
+                Student Track
+              </span>
             </div>
           </div>
           <div className="flex items-center space-x-4">
@@ -20,12 +22,14 @@ export default function Navbar() {
               </span>
             </Button>
             <div className="flex items-center space-x-3">
-              <img 
-                className="h-8 w-8 rounded-full" 
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=32&h=32" 
-                alt="User profile" 
+              <img
+                className="h-8 w-8 rounded-full"
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=32&h=32"
+                alt="User profile"
               />
-              <span className="text-sm font-medium text-gray-700">John Teacher</span>
+              <span className="text-sm font-medium text-gray-700">
+                John Teacher
+              </span>
             </div>
           </div>
         </div>

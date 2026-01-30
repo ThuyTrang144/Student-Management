@@ -5,22 +5,37 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import AddStudentModal from "@/components/students/add-student-modal";
+import EditStudentModal from "@/components/students/edit-student-modal";
 import StudentCard from "@/components/students/student-card";
 import type { StudentWithPackages } from "@shared/schema";
 
 export default function Students() {
   const [isAddStudentOpen, setIsAddStudentOpen] = useState(false);
+  const [isEditStudentOpen, setIsEditStudentOpen] = useState(false);
+  const [selectedStudent, setSelectedStudent] =
+    useState<StudentWithPackages | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const { data: students = [], isLoading } = useQuery<StudentWithPackages[]>({
     queryKey: ["/api/students"],
   });
 
-  const filteredStudents = students.filter(student => 
-    searchQuery === "" || 
-    student.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    student.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    student.email.toLowerCase().includes(searchQuery.toLowerCase())
+  const handleEditStudent = (student: StudentWithPackages) => {
+    setSelectedStudent(student);
+    setIsEditStudentOpen(true);
+  };
+
+  const handleCloseEdit = () => {
+    setIsEditStudentOpen(false);
+    setSelectedStudent(null);
+  };
+
+  const filteredStudents = students.filter(
+    (student) =>
+      searchQuery === "" ||
+      student.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      student.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      student.email.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   if (isLoading) {
@@ -29,7 +44,9 @@ export default function Students() {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-2xl font-semibold text-gray-900">Students</h1>
-            <p className="text-gray-600">Manage your student roster and lesson packages</p>
+            <p className="text-gray-600">
+              Manage your student roster and lesson packages
+            </p>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -51,9 +68,14 @@ export default function Students() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900">Students</h1>
-          <p className="text-gray-600">Manage your student roster and lesson packages</p>
+          <p className="text-gray-600">
+            Manage your student roster and lesson packages
+          </p>
         </div>
-        <Button onClick={() => setIsAddStudentOpen(true)} className="bg-primary hover:bg-primary/90">
+        <Button
+          onClick={() => setIsAddStudentOpen(true)}
+          className="bg-primary hover:bg-primary/90"
+        >
           <Plus className="mr-2" size={16} />
           Add Student
         </Button>
@@ -70,7 +92,10 @@ export default function Students() {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"
             />
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+            <Search
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              size={16}
+            />
           </div>
         </CardContent>
       </Card>
@@ -82,11 +107,13 @@ export default function Students() {
             <Card>
               <CardContent className="p-12 text-center">
                 <p className="text-gray-500">
-                  {searchQuery ? "No students found matching your search." : "No students added yet."}
+                  {searchQuery
+                    ? "No students found matching your search."
+                    : "No students added yet."}
                 </p>
                 {!searchQuery && (
-                  <Button 
-                    className="mt-4 bg-primary hover:bg-primary/90" 
+                  <Button
+                    className="mt-4 bg-primary hover:bg-primary/90"
                     onClick={() => setIsAddStudentOpen(true)}
                   >
                     <Plus className="mr-2" size={16} />
@@ -98,18 +125,27 @@ export default function Students() {
           </div>
         ) : (
           filteredStudents.map((student) => (
-            <Card key={student.id} className="hover:shadow-lg transition-shadow">
+            <Card
+              key={student.id}
+              className="hover:shadow-lg transition-shadow"
+            >
               <CardContent className="p-6">
-                <StudentCard student={student} />
+                <StudentCard student={student} onEdit={handleEditStudent} />
               </CardContent>
             </Card>
           ))
         )}
       </div>
 
-      <AddStudentModal 
-        isOpen={isAddStudentOpen} 
-        onClose={() => setIsAddStudentOpen(false)} 
+      <AddStudentModal
+        isOpen={isAddStudentOpen}
+        onClose={() => setIsAddStudentOpen(false)}
+      />
+
+      <EditStudentModal
+        isOpen={isEditStudentOpen}
+        onClose={handleCloseEdit}
+        student={selectedStudent}
       />
     </div>
   );
