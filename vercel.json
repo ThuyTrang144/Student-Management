@@ -1,15 +1,26 @@
 {
   "version": 2,
-  "buildCommand": "vite build",
-  "outputDirectory": "dist/public",
-  "installCommand": "npm install",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist/public"
+      }
+    }
+  ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api"
+      "dest": "/api/index.js"
     },
     {
-      "handle": "filesystem"
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot))",
+      "dest": "/$1"
     },
     {
       "src": "/(.*)",
@@ -21,8 +32,5 @@
       "runtime": "nodejs20.x",
       "maxDuration": 10
     }
-  },
-  "env": {
-    "NODE_ENV": "production"
   }
 }
